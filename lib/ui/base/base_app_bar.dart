@@ -6,7 +6,7 @@ class BaseAppBar extends AppBar {
 
   BaseAppBar({this.titleText})
       : super(
-          title: Text(titleText,style: TextStyles.heading1,),
+          title: Text(titleText,style: TextStyles.heading2,),
           elevation: 0,
           backgroundColor: ColorPalette.secondary,
         );

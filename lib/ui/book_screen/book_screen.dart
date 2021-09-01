@@ -5,7 +5,9 @@ import 'package:ignite_sol/ui/base/base_screen.dart';
 import 'package:ignite_sol/widget/index.dart';
 
 class BookScreen extends StatefulWidget {
-  const BookScreen({Key key}) : super(key: key);
+  final String type;
+
+  const BookScreen({Key key, this.type}) : super(key: key);
 
   @override
   _BookScreenState createState() => _BookScreenState();

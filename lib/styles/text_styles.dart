@@ -18,6 +18,13 @@ class TextStyles {
         fontFamily: montserrat,
         fontSize: 12.0,
       );
+  static TextStyle get body => TextStyle(
+        inherit: false,
+        color: ColorPalette.mineShaft,
+        fontWeight: bold,
+        fontFamily: montserrat,
+        fontSize: 16.0,
+      );
 
   static TextStyle get bookAuthor => TextStyle(
         inherit: false,
@@ -35,11 +42,19 @@ class TextStyles {
         fontSize: 20.0,
       );
 
-  static TextStyle get heading1 => TextStyle(
+  static TextStyle get heading2 => TextStyle(
         inherit: false,
         color: ColorPalette.primary,
         fontWeight: semiBold,
         fontFamily: montserrat,
         fontSize: 30.0,
+      );
+
+  static TextStyle get heading1 => TextStyle(
+        inherit: false,
+        color: ColorPalette.primary,
+        fontWeight: semiBold,
+        fontFamily: montserrat,
+        fontSize: 48.0,
       );
 }

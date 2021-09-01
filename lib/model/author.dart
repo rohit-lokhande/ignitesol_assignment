@@ -11,5 +11,5 @@ class Author {
 
   Author({this.birthYear, this.deathYear, this.name});
 
-  factory Author.forJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
+  factory Author.formJson(Map<String, dynamic> json) => _$AuthorFromJson(json);
 }

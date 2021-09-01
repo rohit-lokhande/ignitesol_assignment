@@ -23,5 +23,5 @@ class Formats {
       this.applicationEpubZip,
       this.textHtmlCharsetUtf8});
 
-  factory Formats.forJson(Map<String, dynamic> json) => _$FormatsFromJson(json);
+  factory Formats.formJson(Map<String, dynamic> json) => _$FormatsFromJson(json);
 }
