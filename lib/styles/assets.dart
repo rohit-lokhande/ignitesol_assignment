@@ -24,4 +24,6 @@ class Assets {
   static String get politics => getFullPath("politics.svg");
 
   static String get search => getFullPath("search.svg");
+
+  static String get bookPlaceholder => getFullPath("bookPlaceholder.png");
 }

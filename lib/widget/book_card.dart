@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ignite_sol/model/book.dart';
+import 'package:ignite_sol/styles/assets.dart';
 import 'package:ignite_sol/styles/index.dart';
 import 'package:ignite_sol/utils/index.dart';
 
@@ -20,26 +21,32 @@ class BookCard extends StatelessWidget {
         }
       },
       child: Container(
-        // color: Colors.red,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: WidgetUtility.spreadWidgets(
             [
               ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 child: Container(
-                  // height: 162.0,
-                  // width: 144.0,
-                  child: Image.network('https://picsum.photos/id/237/200/300'),
+                  height: 160,
+                  child: Image.network(book?.formats?.imageJpeg ?? "",loadingBuilder:(context,_,__){
+                    return Image.asset(Assets.bookPlaceholder, fit: BoxFit.cover,
+                    );
+                  },),
                 ),
               ),
               Text(
-               " book.title",
+                book.title,
                 style: TextStyles.bookName,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
               ),
               Text(
-                "book.authors[0].name",
+                _authorsName,
                 style: TextStyles.bookAuthor,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+
               ),
             ],
             interItemSpace: 6,
@@ -48,5 +55,19 @@ class BookCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String get _authorsName {
+    String _author = '';
+
+    for (int i = 0; i < book.authors.length; i++) {
+      if (_author.isNotEmpty) {
+        _author = '$_author,${book.authors[i].name}';
+      } else {
+        _author = '${book.authors[i].name}';
+      }
+    }
+
+    return _author;
   }
 }

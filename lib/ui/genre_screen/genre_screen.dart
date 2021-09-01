@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ignite_sol/app_navigator.dart';
 import 'package:ignite_sol/model/genre.dart';
 import 'package:ignite_sol/styles/assets.dart';
 import 'package:ignite_sol/styles/index.dart';
@@ -106,6 +107,9 @@ class _GenreScreenState extends State<GenreScreen> {
                 itemBuilder: (context, index) {
                   return GenreCard(
                     genre: snapshot.data[index],
+                    onClick: (type) {
+                      AppNavigator.navigateToBookScreen(this.context, type);
+                    },
                   );
                 }),
           );
