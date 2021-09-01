@@ -20,30 +20,29 @@ class BookCard extends StatelessWidget {
         }
       },
       child: Container(
+        // color: Colors.red,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: WidgetUtility.spreadWidgets(
             [
               ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 child: Container(
-                  height: 162.0,
+                  // height: 162.0,
                   // width: 144.0,
                   child: Image.network('https://picsum.photos/id/237/200/300'),
                 ),
               ),
               Text(
-                book.title,
+               " book.title",
                 style: TextStyles.bookName,
-                textAlign: TextAlign.start,
               ),
               Text(
-                book.authors[0].name,
+                "book.authors[0].name",
                 style: TextStyles.bookAuthor,
-                textAlign: TextAlign.start,
               ),
             ],
-            interItemSpace: 8,
+            interItemSpace: 6,
             flowHorizontal: false,
           ),
         ),
