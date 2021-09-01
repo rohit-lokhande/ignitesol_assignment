@@ -33,19 +33,20 @@ class BookBloc {
         _isFetchingInProgress = true;
         _cancelToken = CancelToken();
         _subject.value = LoadingEvent(_fetchBookData);
-
         Map<String, dynamic> data =
             await _repository.fetchBooks(nextUrl, _cancelToken);
-
         nextUrl = data["next"];
-
         List<Book> _books = Book.listFromJson(data['results']);
         _fetchBookData.addAll(_books);
         _subject.value = SuccessEvent(_fetchBookData);
         _isFetchingInProgress = false;
       } catch (e) {
         _isFetchingInProgress = false;
-        _subject.value = ErrorEvent(_fetchBookData, error: e.toString());
+        if(_cancelToken.isCancelled){
+          _subject.value = SuccessEvent(_fetchBookData);
+        }else{
+          _subject.value = ErrorEvent(_fetchBookData, error: e.toString());
+        }
       }
     }
   }
@@ -55,7 +56,8 @@ class BookBloc {
       _cancelToken.cancel();
       _isFetchingInProgress = false;
     }
-    nextUrl = ApiEndPoint.getBookBySearch(data);
+    _fetchBookData.clear();
+      nextUrl = ApiEndPoint.getBookBySearch(data);
     _fetchBooks();
   }
 

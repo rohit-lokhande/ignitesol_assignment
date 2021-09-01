@@ -26,6 +26,7 @@ class ImageView extends StatelessWidget {
       alignment: alignment,
       fit: fit,
       width: width,
+      height: height,
       placeholderBuilder: placeholderBuilder ??
           (_) {
             return Container();

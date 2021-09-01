@@ -1,12 +1,16 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ignite_sol/model/book.dart';
+import 'package:ignite_sol/styles/assets.dart';
+import 'package:ignite_sol/styles/index.dart';
 import 'package:ignite_sol/ui/base/base_app_bar.dart';
 import 'package:ignite_sol/ui/base/base_screen.dart';
 import 'package:ignite_sol/ui/book_screen/bloc/book_bloc.dart';
 import 'package:ignite_sol/ui/book_screen/events/book_screen_event.dart';
 import 'package:ignite_sol/utils/index.dart';
+import 'package:ignite_sol/widget/image_view.dart';
 import 'package:ignite_sol/widget/index.dart';
+import 'package:ignite_sol/widget/search_text_field.dart';
 
 class BookScreen extends StatefulWidget {
   final String type;
@@ -20,7 +24,10 @@ class BookScreen extends StatefulWidget {
 class _BookScreenState extends State<BookScreen> {
   BookBloc _bloc;
   ScrollController _scrollController = ScrollController();
-GlobalKey<_BookScreenState> _gridViewKey = GlobalKey();
+  GlobalKey<_BookScreenState> _gridViewKey = GlobalKey();
+
+  TextEditingController _textEditingController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -47,13 +54,34 @@ GlobalKey<_BookScreenState> _gridViewKey = GlobalKey();
               }
               return false;
             },
-            child: _body()));
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 12,
+                    left: 12,
+                    right: 12,
+                  ),
+                  child: SearchTextField(
+                    controller: _textEditingController,
+                    onTextChange: (text) {
+                      if (text.isNotEmpty) {
+                        _bloc.fetchBookBySearch(text);
+                      } else {
+                        _bloc.fetchBookByGenre();
+                      }
+                    },
+                  ),
+                ),
+                Expanded(child: _body()),
+              ],
+            )));
   }
 
   Widget _body() {
     return ValueListenableBuilder<BookScreenEvent>(
       valueListenable: _bloc.subject,
-      builder: (context, snapshot,_) {
+      builder: (context, snapshot, _) {
         List<Widget> _widgets = [];
         if (snapshot != null) {
           if (snapshot is SuccessEvent) {
@@ -62,11 +90,18 @@ GlobalKey<_BookScreenState> _gridViewKey = GlobalKey();
             if (snapshot.books.isNotEmpty) {
               _widgets.add(_bookGridView(snapshot.books));
             }
-            _widgets.add(CircularProgressIndicator());
+            _widgets.add(Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: CircularProgressIndicator(
+                valueColor:
+                    new AlwaysStoppedAnimation<Color>(ColorPalette.primary),
+              ),
+            ));
           } else if (snapshot is ErrorEvent) {
             if (snapshot.books.isNotEmpty) {
               _widgets.add(_bookGridView(snapshot.books));
             }
+            //todo: add error view
             _widgets.add(Container(
               height: 40,
               width: 40,
@@ -81,7 +116,7 @@ GlobalKey<_BookScreenState> _gridViewKey = GlobalKey();
               flowHorizontal: false,
             ),
           );
-        } else  {
+        } else {
           //todo: add error view
           return Container();
         }
@@ -93,8 +128,8 @@ GlobalKey<_BookScreenState> _gridViewKey = GlobalKey();
   _bookGridView(List<Book> books) {
     return Expanded(
       child: GridView.builder(
-          key: PageStorageKey('feed'), //keeps scroll position
-                   itemCount: books.length,
+          key: PageStorageKey('books'),
+          itemCount: books.length,
           controller: _scrollController,
           shrinkWrap: true,
           padding: EdgeInsets.all(12),
