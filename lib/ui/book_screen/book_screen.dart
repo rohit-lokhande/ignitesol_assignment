@@ -185,22 +185,20 @@ class _BookScreenState extends State<BookScreen> {
         baseColor: Colors.grey[300],
         highlightColor: Colors.grey[100],
         period: Duration(seconds: 2),
-        child: Expanded(
-          child: GridView.builder(
-              itemCount: 5,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.all(12),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: cardWidth / cardHeight,
-                crossAxisCount: 3,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 12,
-              ),
-              itemBuilder: (context, index) {
-                return BookCardShimmer();
-              }),
-        ),
+        child: GridView.builder(
+            itemCount: 5,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.all(12),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: cardWidth / cardHeight,
+              crossAxisCount: 3,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 12,
+            ),
+            itemBuilder: (context, index) {
+              return BookCardShimmer();
+            }),
       ),
     );
   }
