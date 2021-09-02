@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ignite_sol/model/book.dart';
 import 'package:ignite_sol/model/formats.dart';
 import 'package:ignite_sol/network/api_endpoint.dart';
+import 'package:ignite_sol/styles/assets.dart';
 import 'package:ignite_sol/styles/color_palette.dart';
+import 'package:ignite_sol/styles/text_styles.dart';
 import 'package:ignite_sol/ui/base/base_app_bar.dart';
 import 'package:ignite_sol/ui/base/base_screen.dart';
 import 'package:ignite_sol/ui/book_screen/bloc/book_bloc.dart';
@@ -50,7 +52,7 @@ class _BookScreenState extends State<BookScreen> {
       body: NotificationListener<ScrollNotification>(
         onNotification: (scrollNotification) {
           if (_scrollController.offset >=
-                  _scrollController.position.maxScrollExtent &&
+              _scrollController.position.maxScrollExtent &&
               !_scrollController.position.outOfRange) {
             if (!_bloc.isFetchingInProgress) {
               _bloc.fetchBookByGenre();
@@ -69,9 +71,10 @@ class _BookScreenState extends State<BookScreen> {
               child: SearchTextField(
                 controller: _textEditingController,
                 onTextChange: (text) {
-                  if (text.isNotEmpty) {
+                  if (text != null && text.isNotEmpty) {
                     _bloc.fetchBookBySearch(text);
                   } else {
+                    _bloc.nextUrl = ApiEndPoint.getBookByType(widget.type);
                     _bloc.fetchBookByGenre();
                   }
                 },
@@ -96,11 +99,15 @@ class _BookScreenState extends State<BookScreen> {
       builder: (context, event, _) {
         List<Widget> _widgets = [];
         if (event != null) {
-          if (event is SuccessEvent) {
+          if (event.books.isNotEmpty) {
             _widgets.add(_bookGridView(event.books));
+          }
+          if (event is SuccessEvent) {
+            if (event.books.isEmpty) {
+              _widgets.add(_emptyDataView());
+            }
           } else if (event is LoadingEvent) {
             if (event.books.isNotEmpty) {
-              _widgets.add(_bookGridView(event.books));
               _widgets.add(Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: CircularProgressIndicator(
@@ -112,14 +119,8 @@ class _BookScreenState extends State<BookScreen> {
               _widgets.add(_shimmerView());
             }
           } else if (event is ErrorEvent) {
-            if (event.books.isNotEmpty) {
-              _widgets.add(_bookGridView(event.books));
-            } else if (event.error != null && event.error.isNotEmpty) {
-              _widgets.add(Container(
-                height: 40,
-                width: 40,
-                color: Colors.red,
-              ));
+            if (event.error != null && event.error.isNotEmpty) {
+              _widgets.add(Container());
             }
           }
 
@@ -137,6 +138,30 @@ class _BookScreenState extends State<BookScreen> {
           return Container();
         }
       },
+    );
+  }
+
+  Container _emptyDataView() {
+    return Container(
+      padding: EdgeInsets.all(16),
+      child: Column(
+        children: WidgetUtility.spreadWidgets(
+          [
+            Image.asset(
+              Assets.bookPlaceholder,
+              height: 140,
+              width: 140,
+              fit: BoxFit.fill,
+            ),
+            Text(
+              "No data found",
+              style: TextStyles.heading2,
+            )
+          ],
+          interItemSpace: 8,
+          flowHorizontal: false,
+        ),
+      ),
     );
   }
 
@@ -204,31 +229,25 @@ class _BookScreenState extends State<BookScreen> {
       if (await canLaunch(format)) {
         await launch(format);
       } else {
-        Fluttertoast.showToast(
-            msg: "oops something went wrong",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.CENTER,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0);
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text("oops something went wrong"),
+        ));
       }
     } else {
-      Fluttertoast.showToast(
-          msg: "Book Preview not available",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          backgroundColor: Colors.red,
-          textColor: Colors.white,
-          fontSize: 16.0);
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("Book Preview not available"),
+      ));
     }
   }
 
   String _getAvailableBookFormat(Formats formats) {
-    if (formats?.applicationPdf?.isNotEmpty) {
+    if (formats.applicationPdf != null && formats.applicationPdf.isNotEmpty) {
       return formats.applicationPdf;
-    } else if (formats?.textHtmlCharsetUtf8?.isNotEmpty) {
+    } else if (formats.textHtmlCharsetUtf8 != null &&
+        formats.textHtmlCharsetUtf8.isNotEmpty) {
       return formats.textHtmlCharsetUtf8;
-    } else if (formats?.textPlainCharsetUtf8?.isNotEmpty) {
+    } else if (formats.textPlainCharsetUtf8 != null &&
+        formats.textPlainCharsetUtf8.isNotEmpty) {
       return formats.textPlainCharsetUtf8;
     } else {
       return null;
