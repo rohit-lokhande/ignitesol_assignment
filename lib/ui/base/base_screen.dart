@@ -19,13 +19,13 @@ class _BaseScreenState extends State<BaseScreen> {
   @override
   Widget build(BuildContext context) {
     if (widget.appBar == null) {
-      return SafeArea(
-        top: widget.topViewPadding,
-        child: Scaffold(
-          body:  Container(
+      return Scaffold(
+        body: SafeArea(
+          top: widget.topViewPadding,
+          child:  Container(
               color: widget.backgroundColor,
               child: widget.body
-          ),
+          )
         ),
       );
     }

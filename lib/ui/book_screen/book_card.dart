@@ -29,14 +29,23 @@ class BookCard extends StatelessWidget {
                   height: 140,
                   child: (book?.formats?.imageJpeg != null &&
                           book.formats.imageJpeg.isNotEmpty)
-                      ? Image.network(
-                          book.formats.imageJpeg,
-                          fit: BoxFit.cover,
+                      ? Container(
+                          child: Image.network(
+                            book.formats.imageJpeg,
+                            fit: BoxFit.fill,
+                            frameBuilder: (context, child, frame, _) {
+                              if (frame == null) {
+                                return _placeholder();
+                              }
+                              return child;
+                            },
+                            errorBuilder: (context, _, __) {
+                              return _placeholder();
+                            },
+                            // fit: BoxFit.cover,
+                          ),
                         )
-                      : Image.asset(
-                          Assets.bookPlaceholder,
-                          fit: BoxFit.cover,
-                        ),
+                      : _placeholder(),
                 ),
               ),
               Text(
@@ -50,13 +59,22 @@ class BookCard extends StatelessWidget {
                 style: TextStyles.bookAuthor,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-
               ),
             ],
             interItemSpace: 6,
             flowHorizontal: false,
           ),
         ),
+      ),
+    );
+  }
+
+  Container _placeholder() {
+    return Container(
+      color: ColorPalette.athensGray,
+      child: Image.asset(
+        Assets.bookPlaceholder,
+        scale: 1.5,
       ),
     );
   }

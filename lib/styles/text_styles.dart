@@ -29,7 +29,7 @@ class TextStyles {
   static TextStyle get bookAuthor => TextStyle(
         inherit: false,
         color: ColorPalette.silverChalice,
-        fontWeight: bold,
+        fontWeight: semiBold,
         fontFamily: montserrat,
         fontSize: 12.0,
       );
@@ -37,9 +37,9 @@ class TextStyles {
   static TextStyle get genreCard => TextStyle(
         inherit: false,
         color: ColorPalette.mineShaft,
-        fontWeight: bold,
+        fontWeight: semiBold,
         fontFamily: montserrat,
-        fontSize: 20.0,
+        fontSize: 16.0,
       );
 
   static TextStyle get heading2 => TextStyle(

@@ -36,12 +36,12 @@ class GenreCard extends StatelessWidget {
             }
           },
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding:  EdgeInsets.all(8.0),
             child: Row(
               children: WidgetUtility.spreadWidgets(
                 [
                   Container(
-                    width: 40,
+                    height: 32,
                     child: ImageView(
                       assetName: Assets.getFullPath(genre.image),
                     ),

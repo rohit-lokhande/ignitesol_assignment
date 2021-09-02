@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ignite_sol/index.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -152,7 +153,7 @@ class _BookScreenState extends State<BookScreen> {
 
   _bookGridView(List<Book> books) {
     double cardWidth = MediaQuery.of(context).size.width / 3.5;
-    double cardHeight = MediaQuery.of(context).size.height / 3.5;
+    double cardHeight = MediaQuery.of(context).size.height / 3.7;
     return Expanded(
       child: GridView.builder(
           key: PageStorageKey('books'),
@@ -212,14 +213,25 @@ class _BookScreenState extends State<BookScreen> {
       if (await canLaunch(format)) {
         await launch(format);
       } else {
-        Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text("oops something went wrong"),
-        ));
+
+        Fluttertoast.showToast(
+            msg: 'oops something went wrong',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+
       }
     } else {
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("Book Preview not available"),
-      ));
+      Fluttertoast.showToast(
+          msg: 'Book Preview not available',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+
     }
   }
 
