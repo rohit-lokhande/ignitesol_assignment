@@ -1,24 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:ignite_sol/ui/book_screen/book_screen.dart';
 import 'package:ignite_sol/ui/genre_screen/genre_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(GutenbergApp());
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+class GutenbergApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
       home: Material(child: GenreScreen()),
     );
   }
 }
-
-

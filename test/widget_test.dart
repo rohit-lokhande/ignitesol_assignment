@@ -13,7 +13,7 @@ import 'package:ignite_sol/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp());
+    await tester.pumpWidget(GutenbergApp());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

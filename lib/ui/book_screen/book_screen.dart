@@ -112,7 +112,7 @@ class _BookScreenState extends State<BookScreen> {
                 padding: const EdgeInsets.only(bottom: 12),
                 child: CircularProgressIndicator(
                   valueColor:
-                      new AlwaysStoppedAnimation<Color>(ColorPalette.primary),
+                       AlwaysStoppedAnimation<Color>(ColorPalette.primary),
                 ),
               ));
             } else {
