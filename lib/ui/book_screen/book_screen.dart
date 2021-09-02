@@ -152,8 +152,6 @@ class _BookScreenState extends State<BookScreen> {
   }
 
   _bookGridView(List<Book> books) {
-    double cardWidth = MediaQuery.of(context).size.width / 3.5;
-    double cardHeight = MediaQuery.of(context).size.height / 3.7;
     return Expanded(
       child: GridView.builder(
           key: PageStorageKey('books'),
@@ -162,7 +160,7 @@ class _BookScreenState extends State<BookScreen> {
           shrinkWrap: true,
           padding: EdgeInsets.all(12),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: cardWidth / cardHeight,
+            childAspectRatio: 0.50,
             crossAxisCount: 3,
             mainAxisSpacing: 8,
             crossAxisSpacing: 12,
@@ -179,8 +177,6 @@ class _BookScreenState extends State<BookScreen> {
   }
 
   Widget _shimmerView() {
-    double cardWidth = MediaQuery.of(context).size.width / 3.5;
-    double cardHeight = MediaQuery.of(context).size.height / 3.5;
     return Expanded(
       child: Shimmer.fromColors(
         baseColor: Colors.grey[300],
@@ -192,7 +188,7 @@ class _BookScreenState extends State<BookScreen> {
             physics: NeverScrollableScrollPhysics(),
             padding: EdgeInsets.all(12),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              childAspectRatio: cardWidth / cardHeight,
+              childAspectRatio: 0.50,
               crossAxisCount: 3,
               mainAxisSpacing: 8,
               crossAxisSpacing: 12,

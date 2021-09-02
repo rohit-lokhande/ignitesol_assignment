@@ -16,7 +16,7 @@ class BaseAppBar extends AppBar {
           titleSpacing: 2,
           leading: IconButton(
             icon: Icon(Icons.arrow_back, color: ColorPalette.primary),
-            iconSize: 34,
+            iconSize: 28,
             onPressed: () {
               if (Navigator.canPop(context)) {
                 AppNavigator.closeScreen(context);

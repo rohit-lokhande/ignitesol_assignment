@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ignite_sol/index.dart';
 
+/// BookCard which contains Book CoverImage, title and authors name
+
 typedef OnBookClick = Function(Book book);
 
 class BookCard extends StatelessWidget {
@@ -25,27 +27,29 @@ class BookCard extends StatelessWidget {
             [
               ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                child: Container(
-                  height: 140,
-                  child: (book?.formats?.imageJpeg != null &&
-                          book.formats.imageJpeg.isNotEmpty)
-                      ? Container(
-                          child: Image.network(
-                            book.formats.imageJpeg,
-                            fit: BoxFit.fill,
-                            frameBuilder: (context, child, frame, _) {
-                              if (frame == null) {
+                child: AspectRatio(
+                  aspectRatio: 0.7,
+                  child: Container(
+                    child: (book?.formats?.imageJpeg != null &&
+                            book.formats.imageJpeg.isNotEmpty)
+                        ? Container(
+                            child: Image.network(
+                              book.formats.imageJpeg,
+                              fit: BoxFit.fill,
+                              frameBuilder: (context, child, frame, _) {
+                                if (frame == null) {
+                                  return _placeholder();
+                                }
+                                return child;
+                              },
+                              errorBuilder: (context, _, __) {
                                 return _placeholder();
-                              }
-                              return child;
-                            },
-                            errorBuilder: (context, _, __) {
-                              return _placeholder();
-                            },
-                            // fit: BoxFit.cover,
-                          ),
-                        )
-                      : _placeholder(),
+                              },
+                              // fit: BoxFit.cover,
+                            ),
+                          )
+                        : _placeholder(),
+                  ),
                 ),
               ),
               Text(

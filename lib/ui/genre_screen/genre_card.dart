@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ignite_sol/index.dart';
 
+/// [GenreCard] contains information of genre of books
+
 typedef OnGenreClick = Function(String type);
 
 class GenreCard extends StatelessWidget {

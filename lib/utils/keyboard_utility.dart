@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+/// [KeyboardUtility] provides functionality to access keyboard events
+
 class KeyboardUtility {
   static void hideKeyboard({BuildContext context}) {
     if (context != null && FocusScope.of(context).hasFocus) {
