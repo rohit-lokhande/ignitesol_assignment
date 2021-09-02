@@ -20,7 +20,7 @@ class GenreCard extends StatelessWidget {
       padding: EdgeInsets.all(0),
       height: 50,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(6),
         boxShadow: [
           BoxShadow(
             color: ColorPalette.shadow,

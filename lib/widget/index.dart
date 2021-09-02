@@ -1,1 +1,1 @@
-export 'book_card.dart';
+export '../ui/book_screen/book_card.dart';

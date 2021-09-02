@@ -32,6 +32,10 @@ dependencies:
   flutter_svg: any
   rxdart: any
   dio: any
+  shimmer: any
+  keyboard_visibility: any
+  url_launcher: any
+  fluttertoast: any
 
 
 

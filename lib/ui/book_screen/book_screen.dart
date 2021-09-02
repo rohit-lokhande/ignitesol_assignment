@@ -1,16 +1,22 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ignite_sol/model/book.dart';
-import 'package:ignite_sol/styles/assets.dart';
-import 'package:ignite_sol/styles/index.dart';
+import 'package:ignite_sol/model/formats.dart';
+import 'package:ignite_sol/network/api_endpoint.dart';
+import 'package:ignite_sol/styles/color_palette.dart';
 import 'package:ignite_sol/ui/base/base_app_bar.dart';
 import 'package:ignite_sol/ui/base/base_screen.dart';
 import 'package:ignite_sol/ui/book_screen/bloc/book_bloc.dart';
+import 'package:ignite_sol/ui/book_screen/book_card_shimmer.dart';
 import 'package:ignite_sol/ui/book_screen/events/book_screen_event.dart';
 import 'package:ignite_sol/utils/index.dart';
-import 'package:ignite_sol/widget/image_view.dart';
+import 'package:ignite_sol/utils/keyboard_utility.dart';
 import 'package:ignite_sol/widget/index.dart';
+import 'package:ignite_sol/widget/keyboard_listener.dart';
 import 'package:ignite_sol/widget/search_text_field.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class BookScreen extends StatefulWidget {
   final String type;
@@ -24,108 +30,119 @@ class BookScreen extends StatefulWidget {
 class _BookScreenState extends State<BookScreen> {
   BookBloc _bloc;
   ScrollController _scrollController = ScrollController();
-  GlobalKey<_BookScreenState> _gridViewKey = GlobalKey();
 
   TextEditingController _textEditingController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _bloc = BookBloc(
-        "http://skunkworks.ignitesol.com:8000/books/?type=${widget.type}");
+    _bloc = BookBloc(ApiEndPoint.getBookByType(widget.type));
     _bloc.fetchBookByGenre();
   }
 
   @override
   Widget build(BuildContext context) {
     return BaseScreen(
-        appBar: BaseAppBar(
-          titleText: widget.type,
-          context: context,
+      appBar: BaseAppBar(
+        titleText: widget.type,
+        context: context,
+      ),
+      body: NotificationListener<ScrollNotification>(
+        onNotification: (scrollNotification) {
+          if (_scrollController.offset >=
+                  _scrollController.position.maxScrollExtent &&
+              !_scrollController.position.outOfRange) {
+            if (!_bloc.isFetchingInProgress) {
+              _bloc.fetchBookByGenre();
+            }
+          }
+          return false;
+        },
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                top: 12,
+                left: 12,
+                right: 12,
+              ),
+              child: SearchTextField(
+                controller: _textEditingController,
+                onTextChange: (text) {
+                  if (text.isNotEmpty) {
+                    _bloc.fetchBookBySearch(text);
+                  } else {
+                    _bloc.fetchBookByGenre();
+                  }
+                },
+              ),
+            ),
+            Expanded(
+              child: KeyboardListener(
+                child: (isVisible) {
+                  return _body();
+                },
+              ),
+            ),
+          ],
         ),
-        body: NotificationListener<ScrollNotification>(
-            onNotification: (scrollNotification) {
-              if (_scrollController.offset >=
-                      _scrollController.position.maxScrollExtent &&
-                  !_scrollController.position.outOfRange) {
-                if (!_bloc.isFetchingInProgress) {
-                  _bloc.fetchBookByGenre();
-                }
-              }
-              return false;
-            },
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 12,
-                    left: 12,
-                    right: 12,
-                  ),
-                  child: SearchTextField(
-                    controller: _textEditingController,
-                    onTextChange: (text) {
-                      if (text.isNotEmpty) {
-                        _bloc.fetchBookBySearch(text);
-                      } else {
-                        _bloc.fetchBookByGenre();
-                      }
-                    },
-                  ),
-                ),
-                Expanded(child: _body()),
-              ],
-            )));
+      ),
+    );
   }
 
   Widget _body() {
     return ValueListenableBuilder<BookScreenEvent>(
       valueListenable: _bloc.subject,
-      builder: (context, snapshot, _) {
+      builder: (context, event, _) {
         List<Widget> _widgets = [];
-        if (snapshot != null) {
-          if (snapshot is SuccessEvent) {
-            _widgets.add(_bookGridView(snapshot.books));
-          } else if (snapshot is LoadingEvent) {
-            if (snapshot.books.isNotEmpty) {
-              _widgets.add(_bookGridView(snapshot.books));
+        if (event != null) {
+          if (event is SuccessEvent) {
+            _widgets.add(_bookGridView(event.books));
+          } else if (event is LoadingEvent) {
+            if (event.books.isNotEmpty) {
+              _widgets.add(_bookGridView(event.books));
+              _widgets.add(Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: CircularProgressIndicator(
+                  valueColor:
+                      new AlwaysStoppedAnimation<Color>(ColorPalette.primary),
+                ),
+              ));
+            } else {
+              _widgets.add(_shimmerView());
             }
-            _widgets.add(Padding(
-              padding: const EdgeInsets.only(bottom: 12),
-              child: CircularProgressIndicator(
-                valueColor:
-                    new AlwaysStoppedAnimation<Color>(ColorPalette.primary),
-              ),
-            ));
-          } else if (snapshot is ErrorEvent) {
-            if (snapshot.books.isNotEmpty) {
-              _widgets.add(_bookGridView(snapshot.books));
+          } else if (event is ErrorEvent) {
+            if (event.books.isNotEmpty) {
+              _widgets.add(_bookGridView(event.books));
+            } else if (event.error != null && event.error.isNotEmpty) {
+              _widgets.add(Container(
+                height: 40,
+                width: 40,
+                color: Colors.red,
+              ));
             }
-            //todo: add error view
-            _widgets.add(Container(
-              height: 40,
-              width: 40,
-              color: Colors.red,
-            ));
           }
 
-          return Column(
-            children: WidgetUtility.spreadWidgets(
-              _widgets,
-              interItemSpace: 12,
-              flowHorizontal: false,
+          return Container(
+            color: ColorPalette.secondary,
+            child: Column(
+              children: WidgetUtility.spreadWidgets(
+                _widgets,
+                interItemSpace: 12,
+                flowHorizontal: false,
+              ),
             ),
           );
         } else {
-          //todo: add error view
           return Container();
         }
-        return const CircularProgressIndicator();
       },
     );
   }
 
   _bookGridView(List<Book> books) {
+    double cardWidth = MediaQuery.of(context).size.width / 3.5;
+    double cardHeight = MediaQuery.of(context).size.height / 3.5;
     return Expanded(
       child: GridView.builder(
           key: PageStorageKey('books'),
@@ -134,7 +151,7 @@ class _BookScreenState extends State<BookScreen> {
           shrinkWrap: true,
           padding: EdgeInsets.all(12),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: 0.5,
+            childAspectRatio: cardWidth / cardHeight,
             crossAxisCount: 3,
             mainAxisSpacing: 8,
             crossAxisSpacing: 12,
@@ -142,8 +159,79 @@ class _BookScreenState extends State<BookScreen> {
           itemBuilder: (context, index) {
             return BookCard(
               book: books[index],
+              onClick: (book) {
+                _onBookClick(book);
+              },
             );
           }),
     );
+  }
+
+  Widget _shimmerView() {
+    double cardWidth = MediaQuery.of(context).size.width / 3.5;
+    double cardHeight = MediaQuery.of(context).size.height / 3.5;
+    return Expanded(
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey[300],
+        highlightColor: Colors.grey[100],
+        period: Duration(seconds: 2),
+        child: Expanded(
+          child: GridView.builder(
+              itemCount: 5,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              padding: EdgeInsets.all(12),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: cardWidth / cardHeight,
+                crossAxisCount: 3,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 12,
+              ),
+              itemBuilder: (context, index) {
+                return BookCardShimmer();
+              }),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onBookClick(Book book) async {
+    KeyboardUtility.removeFocus(context);
+
+    String format = _getAvailableBookFormat(book.formats);
+
+    if (format != null && format.isNotEmpty) {
+      if (await canLaunch(format)) {
+        await launch(format);
+      } else {
+        Fluttertoast.showToast(
+            msg: "oops something went wrong",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0);
+      }
+    } else {
+      Fluttertoast.showToast(
+          msg: "Book Preview not available",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+  }
+
+  String _getAvailableBookFormat(Formats formats) {
+    if (formats?.applicationPdf?.isNotEmpty) {
+      return formats.applicationPdf;
+    } else if (formats?.textHtmlCharsetUtf8?.isNotEmpty) {
+      return formats.textHtmlCharsetUtf8;
+    } else if (formats?.textPlainCharsetUtf8?.isNotEmpty) {
+      return formats.textPlainCharsetUtf8;
+    } else {
+      return null;
+    }
   }
 }

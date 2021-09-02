@@ -30,6 +30,7 @@ class _GenreScreenState extends State<GenreScreen> {
     double _topPadding = MediaQuery.of(context).padding.top;
     return BaseScreen(
       topViewPadding: false,
+      backgroundColor: ColorPalette.secondary,
       body: Column(
         children: WidgetUtility.spreadWidgets(
           [
@@ -41,7 +42,6 @@ class _GenreScreenState extends State<GenreScreen> {
                       Container(
                         height: _topPadding +
                             MediaQuery.of(context).size.height * 0.27,
-                        color: ColorPalette.secondary,
                         child: ImageView(
                           assetName: Assets.pattern,
                           fit: BoxFit.fill,

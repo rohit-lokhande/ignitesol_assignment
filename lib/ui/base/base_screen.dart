@@ -6,8 +6,9 @@ class BaseScreen extends StatefulWidget {
   final BaseAppBar appBar;
   final Widget body;
   final bool topViewPadding;
+  final Color backgroundColor;
 
-  const BaseScreen({Key key, this.appBar, this.body, this.topViewPadding: true})
+  const BaseScreen({Key key, this.appBar, this.body, this.topViewPadding: true,this.backgroundColor})
       : super(key: key);
 
   @override
@@ -21,14 +22,20 @@ class _BaseScreenState extends State<BaseScreen> {
       return SafeArea(
         top: widget.topViewPadding,
         child: Scaffold(
-          body: widget.body,
+          body:  Container(
+              color: widget.backgroundColor,
+              child: widget.body
+          ),
         ),
       );
     }
 
     return Scaffold(
       appBar: widget.appBar,
-      body: widget.body,
+      body: Container(
+        color: widget.backgroundColor,
+        child: widget.body
+      ),
     );
   }
 }

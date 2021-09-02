@@ -59,7 +59,7 @@ class TextStyles {
       );
   static TextStyle get searchBox => TextStyle(
         inherit: true,
-        color: ColorPalette.silverChalice,
+        color: ColorPalette.mineShaft,
         fontWeight: semiBold,
         fontFamily: montserrat,
         fontSize: 16.0,

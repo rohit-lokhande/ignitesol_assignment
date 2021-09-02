@@ -14,6 +14,7 @@ class BookCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(book?.formats?.imageJpeg);
     return GestureDetector(
       onTap: () {
         if (onClick != null) {
@@ -28,11 +29,17 @@ class BookCard extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
                 child: Container(
-                  height: 160,
-                  child: Image.network(book?.formats?.imageJpeg ?? "",loadingBuilder:(context,_,__){
-                    return Image.asset(Assets.bookPlaceholder, fit: BoxFit.cover,
-                    );
-                  },),
+                  height: 140,
+                  child: (book?.formats?.imageJpeg != null &&
+                          book.formats.imageJpeg.isNotEmpty)
+                      ? Image.network(
+                          book.formats.imageJpeg,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          Assets.bookPlaceholder,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
               Text(
