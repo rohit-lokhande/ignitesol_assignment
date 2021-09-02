@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ignite_sol/utils/keyboard_utility.dart';
+import 'package:ignite_sol/index.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 typedef KeyboardWidgetBuilder<T> = Widget Function(T);

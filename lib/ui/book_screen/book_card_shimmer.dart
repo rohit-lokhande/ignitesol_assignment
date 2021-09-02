@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ignite_sol/utils/index.dart';
+import 'package:ignite_sol/index.dart';
 
 class BookCardShimmer extends StatelessWidget {
   const BookCardShimmer({Key key}) : super(key: key);

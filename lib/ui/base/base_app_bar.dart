@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ignite_sol/app_navigator.dart';
-import 'package:ignite_sol/styles/index.dart';
+import 'package:ignite_sol/index.dart';
 
 class BaseAppBar extends AppBar {
   final String titleText;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ignite_sol/ui/book_screen/book_screen.dart';
-import 'package:ignite_sol/ui/genre_screen/genre_screen.dart';
+import 'package:ignite_sol/index.dart';
 
 class AppNavigator {
   static void closeScreen(BuildContext context, {dynamic result}) {

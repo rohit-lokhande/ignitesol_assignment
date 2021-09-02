@@ -1,8 +1,5 @@
-import 'package:ignite_sol/model/genre.dart';
-import 'package:ignite_sol/ui/genre_screen/repository/genre_repository_impl.dart';
+import 'package:ignite_sol/index.dart';
 import 'package:rxdart/rxdart.dart';
-
-import '../repository/genre_repository.dart';
 
 class GenreBloc {
   final GenreRepository _repository = GenreRepositoryImpl();

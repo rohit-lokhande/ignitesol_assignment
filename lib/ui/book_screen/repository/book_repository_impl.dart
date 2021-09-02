@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:dio/src/cancel_token.dart';
-import 'package:ignite_sol/network/api_client.dart';
-import 'package:ignite_sol/ui/book_screen/repository/book_repository.dart';
+import 'package:ignite_sol/index.dart';
 
 class BookRepositoryImpl extends BookRepository {
   @override

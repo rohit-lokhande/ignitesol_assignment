@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ignite_sol/model/book.dart';
-import 'package:ignite_sol/styles/assets.dart';
-import 'package:ignite_sol/styles/index.dart';
-import 'package:ignite_sol/utils/index.dart';
+import 'package:ignite_sol/index.dart';
 
 typedef OnBookClick = Function(Book book);
 

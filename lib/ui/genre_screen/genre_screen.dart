@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ignite_sol/app_navigator.dart';
-import 'package:ignite_sol/model/genre.dart';
-import 'package:ignite_sol/styles/assets.dart';
-import 'package:ignite_sol/styles/index.dart';
-import 'package:ignite_sol/ui/base/base_screen.dart';
-import 'package:ignite_sol/ui/genre_screen/bloc/genre_bloc.dart';
-import 'package:ignite_sol/utils/index.dart';
-import 'package:ignite_sol/ui/genre_screen/genre_card.dart';
-import 'package:ignite_sol/widget/image_view.dart';
+import 'package:ignite_sol/index.dart';
 
 class GenreScreen extends StatefulWidget {
   const GenreScreen({Key key}) : super(key: key);

@@ -1,24 +1,9 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ignite_sol/model/book.dart';
-import 'package:ignite_sol/model/formats.dart';
-import 'package:ignite_sol/network/api_endpoint.dart';
-import 'package:ignite_sol/styles/assets.dart';
-import 'package:ignite_sol/styles/color_palette.dart';
-import 'package:ignite_sol/styles/text_styles.dart';
-import 'package:ignite_sol/ui/base/base_app_bar.dart';
-import 'package:ignite_sol/ui/base/base_screen.dart';
-import 'package:ignite_sol/ui/book_screen/bloc/book_bloc.dart';
-import 'package:ignite_sol/ui/book_screen/book_card_shimmer.dart';
-import 'package:ignite_sol/ui/book_screen/events/book_screen_event.dart';
-import 'package:ignite_sol/utils/index.dart';
-import 'package:ignite_sol/utils/keyboard_utility.dart';
-import 'package:ignite_sol/widget/index.dart';
-import 'package:ignite_sol/widget/keyboard_listener.dart';
-import 'package:ignite_sol/widget/search_text_field.dart';
+import 'package:ignite_sol/index.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'index.dart';
 
 class BookScreen extends StatefulWidget {
   final String type;

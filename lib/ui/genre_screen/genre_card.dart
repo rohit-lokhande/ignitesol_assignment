@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ignite_sol/model/genre.dart';
-import 'package:ignite_sol/styles/assets.dart';
-import 'package:ignite_sol/styles/index.dart';
-import 'package:ignite_sol/utils/index.dart';
-
-import '../../widget/image_view.dart';
+import 'package:ignite_sol/index.dart';
 
 typedef OnGenreClick = Function(String type);
 
