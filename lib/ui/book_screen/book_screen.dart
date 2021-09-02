@@ -1,24 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:ignite_sol/model/book.dart';
-import 'package:ignite_sol/model/formats.dart';
-import 'package:ignite_sol/network/api_endpoint.dart';
-import 'package:ignite_sol/styles/assets.dart';
-import 'package:ignite_sol/styles/color_palette.dart';
-import 'package:ignite_sol/styles/text_styles.dart';
-import 'package:ignite_sol/ui/base/base_app_bar.dart';
-import 'package:ignite_sol/ui/base/base_screen.dart';
-import 'package:ignite_sol/ui/book_screen/bloc/book_bloc.dart';
-import 'package:ignite_sol/ui/book_screen/book_card_shimmer.dart';
-import 'package:ignite_sol/ui/book_screen/events/book_screen_event.dart';
-import 'package:ignite_sol/utils/index.dart';
-import 'package:ignite_sol/utils/keyboard_utility.dart';
-import 'package:ignite_sol/widget/index.dart';
-import 'package:ignite_sol/widget/keyboard_listener.dart';
-import 'package:ignite_sol/widget/search_text_field.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:ignite_sol/index.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'index.dart';
 
 class BookScreen extends StatefulWidget {
   final String type;
@@ -166,8 +152,6 @@ class _BookScreenState extends State<BookScreen> {
   }
 
   _bookGridView(List<Book> books) {
-    double cardWidth = MediaQuery.of(context).size.width / 3.5;
-    double cardHeight = MediaQuery.of(context).size.height / 3.5;
     return Expanded(
       child: GridView.builder(
           key: PageStorageKey('books'),
@@ -176,7 +160,7 @@ class _BookScreenState extends State<BookScreen> {
           shrinkWrap: true,
           padding: EdgeInsets.all(12),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            childAspectRatio: cardWidth / cardHeight,
+            childAspectRatio: 0.50,
             crossAxisCount: 3,
             mainAxisSpacing: 8,
             crossAxisSpacing: 12,
@@ -193,29 +177,25 @@ class _BookScreenState extends State<BookScreen> {
   }
 
   Widget _shimmerView() {
-    double cardWidth = MediaQuery.of(context).size.width / 3.5;
-    double cardHeight = MediaQuery.of(context).size.height / 3.5;
     return Expanded(
       child: Shimmer.fromColors(
         baseColor: Colors.grey[300],
         highlightColor: Colors.grey[100],
         period: Duration(seconds: 2),
-        child: Expanded(
-          child: GridView.builder(
-              itemCount: 5,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              padding: EdgeInsets.all(12),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                childAspectRatio: cardWidth / cardHeight,
-                crossAxisCount: 3,
-                mainAxisSpacing: 8,
-                crossAxisSpacing: 12,
-              ),
-              itemBuilder: (context, index) {
-                return BookCardShimmer();
-              }),
-        ),
+        child: GridView.builder(
+            itemCount: 5,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            padding: EdgeInsets.all(12),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              childAspectRatio: 0.50,
+              crossAxisCount: 3,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 12,
+            ),
+            itemBuilder: (context, index) {
+              return BookCardShimmer();
+            }),
       ),
     );
   }
@@ -229,14 +209,25 @@ class _BookScreenState extends State<BookScreen> {
       if (await canLaunch(format)) {
         await launch(format);
       } else {
-        Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text("oops something went wrong"),
-        ));
+
+        Fluttertoast.showToast(
+            msg: 'oops something went wrong',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+
       }
     } else {
-      Scaffold.of(context).showSnackBar(SnackBar(
-        content: Text("Book Preview not available"),
-      ));
+      Fluttertoast.showToast(
+          msg: 'Book Preview not available',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          textColor: Colors.white,
+          fontSize: 16.0
+      );
+
     }
   }
 

@@ -1,7 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'author.dart';
-import 'formats.dart';
+import 'index.dart';
 
 part 'book.g.dart';
 

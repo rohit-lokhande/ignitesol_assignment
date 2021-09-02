@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// [WidgetUtility] provides functionality to adding spacing between widgets and filter null views.
+
 typedef Children = void Function(List<Widget>);
 
 class WidgetUtility {

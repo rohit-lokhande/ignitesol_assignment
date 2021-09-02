@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class ImageView extends StatelessWidget {
   final String assetName;
@@ -7,7 +6,6 @@ class ImageView extends StatelessWidget {
   final Alignment alignment;
   final double height;
   final double width;
-  final WidgetBuilder placeholderBuilder;
 
   const ImageView(
       {Key key,
@@ -15,22 +13,12 @@ class ImageView extends StatelessWidget {
       this.fit: BoxFit.contain,
       this.alignment: Alignment.centerLeft,
       this.height,
-      this.width,
-      this.placeholderBuilder})
+      this.width})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      assetName,
-      alignment: alignment,
-      fit: fit,
-      width: width,
-      height: height,
-      placeholderBuilder: placeholderBuilder ??
-          (_) {
-            return Container();
-          },
-    );
+    return Image.asset(assetName,
+        alignment: alignment, fit: fit, width: width, height: height);
   }
 }

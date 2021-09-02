@@ -1,37 +1,37 @@
 [
   {
     "title": "FICTION",
-    "image": "fiction.svg",
+    "image": "fiction.png",
     "type": "fiction"
   },
   {
     "title": "DRAMA",
-    "image": "drama.svg",
+    "image": "drama.png",
     "type": "drama"
   },
   {
     "title": "HUMOR",
-    "image": "humour.svg",
+    "image": "humour.png",
     "type": "humor"
   },
   {
     "title": "POLITICS",
-    "image": "politics.svg",
+    "image": "politics.png",
     "type": "politics"
   },
   {
     "title": "PHILOSOPHY",
-    "image": "philosophy.svg",
+    "image": "philosophy.png",
     "type": "philosophy"
   },
   {
     "title": "HISTORY",
-    "image": "history.svg",
+    "image": "history.png",
     "type": "history"
   },
   {
     "title": "ADVENTURE",
-    "image": "adventure.svg",
+    "image": "adventure.png",
     "type": "adventure"
   }
 ]

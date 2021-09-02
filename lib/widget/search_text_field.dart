@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ignite_sol/styles/assets.dart';
-import 'package:ignite_sol/styles/color_palette.dart';
-import 'package:ignite_sol/styles/index.dart';
-import 'package:ignite_sol/widget/image_view.dart';
+import 'package:ignite_sol/index.dart';
 
 typedef OnTextChange = Function(String text);
 

@@ -1,12 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:ignite_sol/model/book.dart';
-import 'package:ignite_sol/network/api_client.dart';
-import 'package:ignite_sol/network/api_endpoint.dart';
-import 'package:ignite_sol/ui/book_screen/events/book_screen_event.dart';
-import 'package:ignite_sol/ui/book_screen/repository/book_repository.dart';
-import 'package:ignite_sol/ui/book_screen/repository/book_repository_impl.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:ignite_sol/index.dart';
 
 class BookBloc {
   BookRepository _repository = BookRepositoryImpl();

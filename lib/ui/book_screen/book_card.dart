@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ignite_sol/model/book.dart';
-import 'package:ignite_sol/styles/assets.dart';
-import 'package:ignite_sol/styles/index.dart';
-import 'package:ignite_sol/utils/index.dart';
+import 'package:ignite_sol/index.dart';
+
+/// BookCard which contains Book CoverImage, title and authors name
 
 typedef OnBookClick = Function(Book book);
 
@@ -28,18 +27,29 @@ class BookCard extends StatelessWidget {
             [
               ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(8)),
-                child: Container(
-                  height: 140,
-                  child: (book?.formats?.imageJpeg != null &&
-                          book.formats.imageJpeg.isNotEmpty)
-                      ? Image.network(
-                          book.formats.imageJpeg,
-                          fit: BoxFit.cover,
-                        )
-                      : Image.asset(
-                          Assets.bookPlaceholder,
-                          fit: BoxFit.cover,
-                        ),
+                child: AspectRatio(
+                  aspectRatio: 0.7,
+                  child: Container(
+                    child: (book?.formats?.imageJpeg != null &&
+                            book.formats.imageJpeg.isNotEmpty)
+                        ? Container(
+                            child: Image.network(
+                              book.formats.imageJpeg,
+                              fit: BoxFit.fill,
+                              frameBuilder: (context, child, frame, _) {
+                                if (frame == null) {
+                                  return _placeholder();
+                                }
+                                return child;
+                              },
+                              errorBuilder: (context, _, __) {
+                                return _placeholder();
+                              },
+                              // fit: BoxFit.cover,
+                            ),
+                          )
+                        : _placeholder(),
+                  ),
                 ),
               ),
               Text(
@@ -53,13 +63,22 @@ class BookCard extends StatelessWidget {
                 style: TextStyles.bookAuthor,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-
               ),
             ],
             interItemSpace: 6,
             flowHorizontal: false,
           ),
         ),
+      ),
+    );
+  }
+
+  Container _placeholder() {
+    return Container(
+      color: ColorPalette.athensGray,
+      child: Image.asset(
+        Assets.bookPlaceholder,
+        scale: 1.5,
       ),
     );
   }

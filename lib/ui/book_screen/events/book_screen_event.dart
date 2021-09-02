@@ -1,4 +1,5 @@
-import 'package:ignite_sol/model/book.dart';
+
+import 'package:ignite_sol/index.dart';
 
 abstract class BookScreenEvent {
   List<Book> books;

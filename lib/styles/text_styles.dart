@@ -23,13 +23,13 @@ class TextStyles {
         color: ColorPalette.mineShaft,
         fontWeight: bold,
         fontFamily: montserrat,
-        fontSize: 16.0,
+        fontSize: 14.0,
       );
 
   static TextStyle get bookAuthor => TextStyle(
         inherit: false,
         color: ColorPalette.silverChalice,
-        fontWeight: bold,
+        fontWeight: semiBold,
         fontFamily: montserrat,
         fontSize: 12.0,
       );
@@ -37,9 +37,9 @@ class TextStyles {
   static TextStyle get genreCard => TextStyle(
         inherit: false,
         color: ColorPalette.mineShaft,
-        fontWeight: bold,
+        fontWeight: semiBold,
         fontFamily: montserrat,
-        fontSize: 20.0,
+        fontSize: 14.0,
       );
 
   static TextStyle get heading2 => TextStyle(
@@ -47,7 +47,7 @@ class TextStyles {
         color: ColorPalette.primary,
         fontWeight: semiBold,
         fontFamily: montserrat,
-        fontSize: 30.0,
+        fontSize: 20.0,
       );
 
   static TextStyle get heading1 => TextStyle(
@@ -55,7 +55,7 @@ class TextStyles {
         color: ColorPalette.primary,
         fontWeight: semiBold,
         fontFamily: montserrat,
-        fontSize: 48.0,
+        fontSize: 30.0,
       );
   static TextStyle get searchBox => TextStyle(
         inherit: true,

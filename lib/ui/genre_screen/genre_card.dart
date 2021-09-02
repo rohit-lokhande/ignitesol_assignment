@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ignite_sol/model/genre.dart';
-import 'package:ignite_sol/styles/assets.dart';
-import 'package:ignite_sol/styles/index.dart';
-import 'package:ignite_sol/utils/index.dart';
+import 'package:ignite_sol/index.dart';
 
-import '../../widget/image_view.dart';
+/// [GenreCard] contains information of genre of books
 
 typedef OnGenreClick = Function(String type);
 
@@ -41,12 +38,12 @@ class GenreCard extends StatelessWidget {
             }
           },
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding:  EdgeInsets.all(8.0),
             child: Row(
               children: WidgetUtility.spreadWidgets(
                 [
                   Container(
-                    width: 40,
+                    height: 32,
                     child: ImageView(
                       assetName: Assets.getFullPath(genre.image),
                     ),
